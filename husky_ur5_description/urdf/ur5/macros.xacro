@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- mesh = base name without extension (e.g. "base" -> visual/base.dae, collision/base.stl) -->
+  <xacro:macro name="ur5_link"
+               params="name mesh mass ixx iyy izz
+                       xyz:='0 0 0' rpy:='0 0 0'
+                       xyz_in:='0 0 0' rpy_in:='0 0 0'
+                       ixy:=0 ixz:=0 iyz:=0">
+    <link name="${name}">
+      <visual>
+        <origin xyz="${xyz}" rpy="${rpy}"/>
+        <geometry>
+          <mesh filename="package://husky_ur5_description/meshes/ur5/visual/${mesh}.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="${xyz}" rpy="${rpy}"/>
+        <geometry>
+          <mesh filename="package://husky_ur5_description/meshes/ur5/collision/${mesh}.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${mass}"/>
+        <origin xyz="${xyz_in}" rpy="${rpy_in}"/>
+        <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}"
+                 iyy="${iyy}" iyz="${iyz}" izz="${izz}"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+
+
+  <!-- Revolute joint. Axis, damping, friction and the +/-2pi limits are defaults; override per joint. -->
+  <xacro:macro name="ur5_revolute_joint"
+               params="name parent child
+                       xyz:='0 0 0' rpy:='0 0 0' axis:='0 0 1'
+                       effort:=150.0 lower:=${-2*pi} upper:=${2*pi} velocity:=${pi}
+                       damping:=10.0 friction:=0.5">
+
+    <joint name="${name}" type="revolute">
+      <parent link="${parent}"/>
+      <child link="${child}"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+      <axis xyz="${axis}"/>
+      <limit effort="${effort}" lower="${lower}" upper="${upper}" velocity="${velocity}"/>
+      <dynamics damping="${damping}" friction="${friction}"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- Fixed joint only -->
+  <xacro:macro name="ur5_fixed_joint" params="name parent child xyz:='0 0 0' rpy:='0 0 0'">
+    <joint name="${name}" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${child}"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- Empty frame link and fixed joint to its parent -->
+  <xacro:macro name="ur5_frame" params="name parent joint_name xyz:='0 0 0' rpy:='0 0 0'">
+    <link name="${name}"/>
+    <xacro:ur5_fixed_joint name="${joint_name}" parent="${parent}" child="${name}" xyz="${xyz}" rpy="${rpy}"/>
+  </xacro:macro>
+
+  <!-- ros2_control joint interface: position command, position and velocity state -->
+  <xacro:macro name="ur5_ros2c_joint" params="name initial:=0.0">
+    <joint name="${name}">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">${initial}</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

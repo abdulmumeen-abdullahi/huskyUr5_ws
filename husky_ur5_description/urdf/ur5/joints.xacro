@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- World Frame -->
+  <link name="world" />
+
+  <!-- Fixes base_link to the environment. -->
+  <xacro:ur5_fixed_joint name="base_joint" parent="world" child="base_link"/>
+
+  <!-- base_link is REP-103 aligned (X+ forward); the controller frames have X+ backward.
+       This joint adds the pi rotation about Z. -->
+  <xacro:ur5_fixed_joint name="base_link-base_link_inertia"
+      parent="base_link" child="base_link_inertia" rpy="0 0 ${pi}"/>
+
+  <!-- Main serial chain -->
+  <xacro:ur5_revolute_joint name="shoulder_pan_joint"
+      parent="base_link_inertia" child="shoulder_link"
+      xyz="0 0 0.089159"/>
+
+  <xacro:ur5_revolute_joint name="shoulder_lift_joint"
+      parent="shoulder_link" child="upper_arm_link"
+      rpy="1.570796327 0 0"/>
+
+  <xacro:ur5_revolute_joint name="elbow_joint"
+      parent="upper_arm_link" child="forearm_link"
+      xyz="-0.425 0 0"
+      lower="${-pi}" upper="${pi}"/>
+
+  <xacro:ur5_revolute_joint name="wrist_1_joint"
+      parent="forearm_link" child="wrist_1_link"
+      xyz="-0.39225 0 0.10915"
+      effort="28.0"/>
+
+  <xacro:ur5_revolute_joint name="wrist_2_joint"
+      parent="wrist_1_link" child="wrist_2_link"
+      xyz="0 -0.09465 -1.941303950897609e-11" rpy="1.570796327 0 0"
+      effort="28.0"/>
+
+  <xacro:ur5_revolute_joint name="wrist_3_joint"
+      parent="wrist_2_link" child="wrist_3_link"
+      xyz="0 0.0823 -1.688001216681175e-11"
+      rpy="1.570796326589793 3.141592653589793 3.141592653589793"
+      effort="28.0"/>
+
+  <!-- Auxiliary frames -->
+  <xacro:ur5_frame name="ft_frame" parent="wrist_3_link"
+      joint_name="wrist_3_link-ft_frame" rpy="${pi} 0 0"/>
+
+  <!-- ROS-Industrial 'base': base_link to UR 'Base' coordinates (pi about Z) -->
+  <xacro:ur5_frame name="base" parent="base_link"
+      joint_name="base_link-base_fixed_joint" rpy="0 0 ${pi}"/>
+
+  <!-- ROS-Industrial 'flange': attachment point for EEF models -->
+  <xacro:ur5_frame name="flange" parent="wrist_3_link"
+      joint_name="wrist_3-flange" rpy="0 ${-pi/2} ${-pi/2}"/>
+
+  <!-- ROS-Industrial 'tool0': default tool frame (X+ left, Y+ up, Z+ front) -->
+  <xacro:ur5_frame name="tool0" parent="flange"
+      joint_name="flange-tool0" rpy="${pi/2} 0 ${pi/2}"/>
+
+
+</robot>

@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: husky_ur5_description
+    relative_path: urdf/ur5/ur5.urdf
+  srdf:
+    relative_path: config/ur5-robot.srdf
+  package_settings:
+    author_name: Abdullahi Olalekan Abdulmumeen
+    author_email: olalekan3abdulmumeen@gmail.com
+    generated_timestamp: 1793987976
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
