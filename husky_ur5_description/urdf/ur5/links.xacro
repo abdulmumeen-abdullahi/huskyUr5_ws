@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <link name="base_link"/>
+  <link name="ur5_base_link"/>
 
   <xacro:ur5_link name="base_link_inertia" mesh="base"
       rpy="0 0 ${pi}"

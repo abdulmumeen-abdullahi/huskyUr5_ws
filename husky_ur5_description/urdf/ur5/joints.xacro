@@ -2,15 +2,15 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- World Frame -->
-  <link name="world" />
+  <!-- <link name="world" /> -->
 
   <!-- Fixes base_link to the environment. -->
-  <xacro:ur5_fixed_joint name="base_joint" parent="world" child="base_link"/>
+  <!-- <xacro:ur5_fixed_joint name="base_joint" parent="world" child="ur_base_link"/> -->
 
   <!-- base_link is REP-103 aligned (X+ forward); the controller frames have X+ backward.
        This joint adds the pi rotation about Z. -->
-  <xacro:ur5_fixed_joint name="base_link-base_link_inertia"
-      parent="base_link" child="base_link_inertia" rpy="0 0 ${pi}"/>
+  <xacro:ur5_fixed_joint name="ur5_base_link-base_link_inertia"
+      parent="ur5_base_link" child="base_link_inertia" rpy="0 0 ${pi}"/>
 
   <!-- Main serial chain -->
   <xacro:ur5_revolute_joint name="shoulder_pan_joint"
@@ -46,9 +46,9 @@
   <xacro:ur5_frame name="ft_frame" parent="wrist_3_link"
       joint_name="wrist_3_link-ft_frame" rpy="${pi} 0 0"/>
 
-  <!-- ROS-Industrial 'base': base_link to UR 'Base' coordinates (pi about Z) -->
-  <xacro:ur5_frame name="base" parent="base_link"
-      joint_name="base_link-base_fixed_joint" rpy="0 0 ${pi}"/>
+  <!-- ROS-Industrial 'base': ur5_base_link to UR 'Base' coordinates (pi about Z) -->
+  <xacro:ur5_frame name="base" parent="ur5_base_link"
+      joint_name="ur5_base_link-base_fixed_joint" rpy="0 0 ${pi}"/>
 
   <!-- ROS-Industrial 'flange': attachment point for EEF models -->
   <xacro:ur5_frame name="flange" parent="wrist_3_link"

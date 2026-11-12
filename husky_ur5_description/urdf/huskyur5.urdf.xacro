@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="huskyur5_mobile">
+
+  <xacro:arg name="ur5_standalone" default="false"/>
+
+  <!-- Include the Husky base and material -->
+  <xacro:include filename="$(find husky_ur5_description)/urdf/husky/husky_a200.urdf.xacro" />
+  <!-- <xacro:include filename="$(find husky_ur5_description)/urdf/husky/materials.xacro" /> -->
+
+  <!-- Include the UR5 arm -->
+  <xacro:include filename="$(find husky_ur5_description)/urdf/ur5/ur5.urdf.xacro" />
+
+  <!-- Include Custom Integration Links & Joints -->
+  <xacro:include filename="$(find husky_ur5_description)/urdf/links.xacro" />
+  <xacro:include filename="$(find husky_ur5_description)/urdf/joints.xacro" />
+
+  
+
+</robot>

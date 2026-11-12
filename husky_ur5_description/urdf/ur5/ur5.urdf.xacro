@@ -9,4 +9,15 @@
   <xacro:include filename="ros2_control.xacro"/>
   <xacro:property name="gazebo_control" value="true" />
 
+
+  <xacro:arg name="ur5_standalone" default="true"/>
+  <xacro:if value="$(arg ur5_standalone)">
+    <link name="base_link"/>
+    <joint name="standalone_base_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="ur5_base_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+  </xacro:if>
+
 </robot>

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- A200 CHASSIS LINKS                                                      -->
+  <!-- ======================================================================= -->
+  <xacro:macro name="a200_links" params="base_x_size base_y_size base_z_size">
+
+    <!-- Base link is the center of the robot's bottom plate -->
+    <link name="base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://husky_ur5_description/meshes/husky/base_link.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://husky_ur5_description/meshes/husky/base_link.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Spawn A200 chassis -->
+    <link name="top_chassis_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://husky_ur5_description/meshes/husky/top_chassis.dae" />
+        </geometry>
+        <material name="yellow" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://husky_ur5_description/meshes/husky/top_chassis.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Inertial link stores the robot's inertial information -->
+    <link name="inertial_link">
+      <inertial>
+        <mass value="46.034" />
+        <origin xyz="-0.00065 -0.085 0.062" />
+        <inertia ixx="0.6022" ixy="-0.02364" ixz="-0.1197" iyy="1.7386" iyz="-0.001544" izz="2.0296" />
+      </inertial>
+    </link>
+
+    <!-- Front bumper mount (Virtual Link) -->
+    <link name="front_bumper_mount"/>
+
+    <!-- Rear bumper mount (Virtual Link) -->
+    <link name="rear_bumper_mount"/>
+
+    <!-- Default payload mount (Virtual Link) -->
+    <link name="default_mount"/>
+
+    <!-- Base footprint is on the ground under the robot (Virtual Link) -->
+    <link name="base_footprint"/>
+
+  </xacro:macro>
+
+</robot>

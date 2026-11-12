@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="husky_a200">
+
+  <!-- GLOBAL ARGUMENTS & PROPERTIES                                        -->
+  <!-- ======================================================================= -->
+  <xacro:arg name="is_sim" default="true"/>
+  <xacro:arg name="use_platform_controllers" default="true"/>
+  <xacro:arg name="serial_port" default="/dev/clearpath/prolific" />
+  <xacro:arg name="gazebo_controllers" default="a200_control.yaml"/>
+  <xacro:arg name="namespace" default="" />
+  <xacro:arg name="front_wheels" default="outdoor" />
+  <xacro:arg name="rear_wheels" default="outdoor" />
+
+  <xacro:property name="M_PI" value="3.14159"/>
+  <xacro:property name="base_x_size" value="0.9874" />
+  <xacro:property name="base_y_size" value="0.5709" />
+  <xacro:property name="base_z_size" value="0.2475" />
+  <xacro:property name="wheel_base" value="0.5120" />
+  <xacro:property name="wheel_track" value="0.555" />
+  <xacro:property name="wheel_vertical_offset" value="0.03282" />
+  <xacro:property name="front_wheel_radius" value="0.1651" /> 
+
+  <!-- INCLUDES                                                             -->
+  <!-- ======================================================================= -->
+  <xacro:include filename="materials.xacro" />
+  <xacro:include filename="macros.xacro" />
+  <xacro:include filename="links.xacro" />
+  <xacro:include filename="joints.xacro" />
+  <xacro:include filename="wheels.urdf.xacro" />
+  <xacro:include filename="ros2_control.xacro" />
+
+  <!-- HUSKY CHASSIS ASSEMBLY                                               -->
+  <!-- ======================================================================= -->
+  <xacro:a200_links 
+      base_x_size="${base_x_size}" 
+      base_y_size="${base_y_size}" 
+      base_z_size="${base_z_size}" />
+
+  <xacro:a200_static_joints 
+      wheel_vertical_offset="${wheel_vertical_offset}" 
+      front_wheel_radius="${front_wheel_radius}" 
+      M_PI="${M_PI}" />
+
+  <!-- DRIVE WHEELS                                                         -->
+  <!-- ======================================================================= -->
+  <!-- Note: Wheel joints are generated inside this macro dynamically -->
+  <xacro:a200_drivetrain_wheels 
+      front_wheels="$(arg front_wheels)" 
+      rear_wheels="$(arg rear_wheels)"
+      wheel_base="${wheel_base}"
+      wheel_track="${wheel_track}" />
+
+  <!-- ROS 2 CONTROL / GAZEBO PLUGINS                                       -->
+  <!-- ======================================================================= -->
+  <xacro:a200_ros2_control 
+      use_platform_controllers="$(arg use_platform_controllers)"
+      is_sim="$(arg is_sim)"
+      serial_port="$(arg serial_port)"
+      front_wheel_radius="${front_wheel_radius}" />
+
+  <!-- Gazebo Simulation Plugins -->
+  <xacro:if value="$(arg is_sim)">
+    <gazebo>
+      <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(arg gazebo_controllers)</parameters>
+        <ros>
+          <remapping>~/odom:=platform/odom</remapping>
+          <remapping>~/cmd_vel:=platform/cmd_vel</remapping>
+          <remapping>/tf:=tf</remapping>
+          <remapping>/tf_static:=tf_static</remapping>
+          <remapping>/diagnostics:=diagnostics</remapping>
+          <remapping>/dynamic_joint_states:=platform/dynamic_joint_states</remapping>
+          <remapping>joint_states:=platform/joint_states</remapping>
+          <remapping>~/reference:=platform/cmd_vel</remapping>
+          <remapping>~/odometry:=platform/odom</remapping>
+          <namespace>$(arg namespace)</namespace>
+        </ros>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="libgz-sim-pose-publisher-system.so" name="gz::sim::systems::PosePublisher">
+        <publish_link_pose>true</publish_link_pose>
+        <publish_nested_model_pose>true</publish_nested_model_pose>
+        <use_pose_vector_msg>true</use_pose_vector_msg>
+        <update_frequency>50</update_frequency>
+      </plugin>
+    </gazebo>
+  </xacro:if>
+
+</robot>

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- STATIC CHASSIS JOINTS                                                 -->
+  <!-- ======================================================================= -->
+  <xacro:macro name="a200_static_joints" params="wheel_vertical_offset front_wheel_radius M_PI">
+    
+    <!-- Top Chassis -->
+    <joint name="top_chassis_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="top_chassis_link" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <!-- Inertial Link -->
+    <joint name="inertial_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="inertial_link" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <!-- Bumper Mounts -->
+    <joint name="front_bumper_mount_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="front_bumper_mount" />
+      <origin xyz="0.406 0 0.091" rpy="0 0 0" />
+    </joint>
+
+    <joint name="rear_bumper_mount_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="rear_bumper_mount" />
+      <origin xyz="-0.406 0 0.091" rpy="0 0 ${M_PI}" />
+    </joint>
+
+    <!-- Payload Mount -->
+    <joint name="default_mount_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="default_mount"/>
+      <origin xyz="0.0 0.0 0.224" rpy="0 0 0" />
+    </joint>
+
+    <!-- Ground Footprint -->
+    <joint name="base_footprint_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="base_footprint" />
+      <origin xyz="0 0 ${wheel_vertical_offset - front_wheel_radius}" rpy="0 0 0" />
+    </joint>
+
+  </xacro:macro>
+
+</robot>
