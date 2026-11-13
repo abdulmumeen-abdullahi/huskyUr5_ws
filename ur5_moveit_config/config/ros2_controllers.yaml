@@ -24,4 +24,5 @@ ur_arm_controller:
     state_interfaces:
       - position
       - velocity
+    allow_partial_joints_goal: true
     allow_nonzero_velocity_at_trajectory_end: true
