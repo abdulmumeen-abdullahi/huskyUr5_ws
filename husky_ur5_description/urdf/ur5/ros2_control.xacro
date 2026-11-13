@@ -14,4 +14,11 @@
     <xacro:ur5_ros2c_joint name="wrist_3_joint"       initial="0.0"/>
   </ros2_control>
 
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find ur5_moveit_config)/config/ros2_controllers.yaml</parameters>
+      <controller_manager_prefix_node_name>controller_manager</controller_manager_prefix_node_name>
+    </plugin>
+  </gazebo>
+
 </robot>

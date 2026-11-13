@@ -6,7 +6,7 @@
   <xacro:arg name="is_sim" default="true"/>
   <xacro:arg name="use_platform_controllers" default="true"/>
   <xacro:arg name="serial_port" default="/dev/clearpath/prolific" />
-  <xacro:arg name="gazebo_controllers" default="a200_control.yaml"/>
+  <xacro:arg name="gazebo_controllers" default="/home/microsmart/Projects/huskyUr5_ws/src/husky_ur5_moveit_config/config/a200_control.yaml"/>
   <xacro:arg name="namespace" default="" />
   <xacro:arg name="front_wheels" default="outdoor" />
   <xacro:arg name="rear_wheels" default="outdoor" />

@@ -34,6 +34,7 @@
       <geometry>
         <mesh filename="package://husky_ur5_description/meshes/husky/top_chassis.dae"/>
       </geometry>
+      <material name="yellow"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -290,7 +291,7 @@
   </ros2_control>
   <gazebo>
     <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-      <parameters>a200_control.yaml</parameters>
+      <parameters>/home/microsmart/Projects/huskyUr5_ws/src/husky_ur5_moveit_config/config/a200_control.yaml</parameters>
       <ros>
         <remapping>~/odom:=platform/odom</remapping>
         <remapping>~/cmd_vel:=platform/cmd_vel</remapping>
