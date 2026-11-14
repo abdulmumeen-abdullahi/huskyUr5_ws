@@ -1,14 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur5-robot">
-    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+    <xacro:arg name="initial_positions_file" default="$(find ur5_moveit_config)/config/initial_positions.yaml" />
 
-    <!-- Import ur5-robot urdf file -->
-    <xacro:include filename="ur5_arm.urdf" />
-
-    <!-- Import control_xacro -->
-    <xacro:include filename="ur5-robot.ros2_control.xacro" />
-
+    <xacro:include filename="$(find ur5_moveit_config)/config/ur5_arm.urdf" />
+    <xacro:include filename="$(find ur5_moveit_config)/config/ur5-robot.ros2_control.xacro" />
 
     <xacro:ur5-robot_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
-
 </robot>
