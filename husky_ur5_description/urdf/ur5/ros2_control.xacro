@@ -7,10 +7,10 @@
       <plugin>gz_ros2_control/GazeboSimSystem</plugin>
     </hardware>
     <xacro:ur5_ros2c_joint name="shoulder_pan_joint"  initial="0.0"/>
-    <xacro:ur5_ros2c_joint name="shoulder_lift_joint" initial="-1.5708"/> <!-- -90 deg: arm points up -->
-    <xacro:ur5_ros2c_joint name="elbow_joint"         initial="1.5708"/>  <!-- +90 deg: bent elbow -->
-    <xacro:ur5_ros2c_joint name="wrist_1_joint"       initial="-1.5708"/>
-    <xacro:ur5_ros2c_joint name="wrist_2_joint"       initial="-1.5708"/>
+    <xacro:ur5_ros2c_joint name="shoulder_lift_joint" initial="0.0"/> <!-- -90 deg: arm points up -->
+    <xacro:ur5_ros2c_joint name="elbow_joint"         initial="0.0"/>  <!-- +90 deg: bent elbow -->
+    <xacro:ur5_ros2c_joint name="wrist_1_joint"       initial="0.0"/>
+    <xacro:ur5_ros2c_joint name="wrist_2_joint"       initial="0.0"/>
     <xacro:ur5_ros2c_joint name="wrist_3_joint"       initial="0.0"/>
   </ros2_control>
 

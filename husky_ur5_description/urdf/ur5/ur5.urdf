@@ -267,10 +267,22 @@
       <state_interface name="velocity"/>
     </joint>
   </ros2_control>
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>/home/microsmart/Projects/huskyUr5_ws/install/ur5_moveit_config/share/ur5_moveit_config/config/ros2_controllers.yaml</parameters>
+      <controller_manager_prefix_node_name>controller_manager</controller_manager_prefix_node_name>
+    </plugin>
+  </gazebo>
   <link name="base_link"/>
   <joint name="standalone_base_joint" type="fixed">
     <parent link="base_link"/>
     <child link="ur5_base_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+  <link name="world"/>
+  <joint name="world_to_base" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
   </joint>
 </robot>
