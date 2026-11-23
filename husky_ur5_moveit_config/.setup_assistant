@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: husky_ur5_description
+    relative_path: urdf/huskyur5.urdf
+  srdf:
+    relative_path: config/huskyur5_mobile.srdf
+  package_settings:
+    author_name: Abdullahi Olalekan Abdulmumeen
+    author_email: olalekan3abdulmumeen@gmail.com
+    generated_timestamp: 1794513223
