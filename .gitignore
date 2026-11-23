@@ -1,0 +1,9 @@
+# External dependencies managed via vcstool (deps.repos)
+ukf_dt_sync/
+husky_ur5_config/
+husky_ur5_estimation/
+husky_ur5_uncertainty/
+
+# artifacts
+__pycache__/
+.ipynb_checkpoints/

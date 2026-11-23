@@ -1,0 +1,5 @@
+repositories:
+  ukf_dt_sync:
+    type: git
+    url: https://github.com/abdulmumeen-abdullahi/reconfigurable_UKF.git
+    version: v0.1.0
