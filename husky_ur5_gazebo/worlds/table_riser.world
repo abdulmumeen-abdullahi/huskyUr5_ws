@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Ground Plane</uri>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Sun</uri>
+    </include>
+
+    <!-- Static riser under the UR5 spawn point (x=-0.2, y=-0.5) -->
+    <model name="riser">
+        <static>true</static>
+        <pose>-0.2 -0.5 0 0 0 0</pose>
+        <link name="riser_link">
+            <visual name="visual">
+            <pose>0 0 0.5105 0 0 0</pose>
+            <geometry>
+                <cylinder>
+                <radius>0.075</radius>
+                <length>1.021</length>
+                </cylinder>
+            </geometry>
+            <material>
+                <ambient>0.3 0.3 0.3 1</ambient>
+                <diffuse>0.3 0.3 0.3 1</diffuse>
+            </material>
+            </visual>
+            <collision name="collision">
+            <pose>0 0 0.5105 0 0 0</pose>
+            <geometry>
+                <cylinder>
+                <radius>0.075</radius>
+                <length>1.021</length>
+                </cylinder>
+            </geometry>
+            </collision>
+        </link>
+    </model>
+
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <gravity>0 0 -9.81</gravity>
+    </physics>
+  </world>
+</sdf>
+
+
+
