@@ -1,24 +1,29 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <!-- ros2_control -->
+  <xacro:arg name="ur5_standalone" default="true"/>
+
+  <!-- ros2_control hardware interface -->
   <ros2_control name="ur5_system" type="system">
     <hardware>
       <plugin>gz_ros2_control/GazeboSimSystem</plugin>
     </hardware>
     <xacro:ur5_ros2c_joint name="shoulder_pan_joint"  initial="0.0"/>
-    <xacro:ur5_ros2c_joint name="shoulder_lift_joint" initial="0.0"/> <!-- -90 deg: arm points up -->
-    <xacro:ur5_ros2c_joint name="elbow_joint"         initial="0.0"/>  <!-- +90 deg: bent elbow -->
+    <xacro:ur5_ros2c_joint name="shoulder_lift_joint" initial="0.0"/>
+    <xacro:ur5_ros2c_joint name="elbow_joint"         initial="0.0"/>
     <xacro:ur5_ros2c_joint name="wrist_1_joint"       initial="0.0"/>
     <xacro:ur5_ros2c_joint name="wrist_2_joint"       initial="0.0"/>
     <xacro:ur5_ros2c_joint name="wrist_3_joint"       initial="0.0"/>
   </ros2_control>
 
-  <gazebo>
-    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-      <parameters>$(find ur5_moveit_config)/config/ros2_controllers.yaml</parameters>
-      <controller_manager_prefix_node_name>controller_manager</controller_manager_prefix_node_name>
-    </plugin>
-  </gazebo>
+  <!-- Fix: Only load standalone plugin when UR5 is not mounted on Husky to deduplicate plugins -->
+  <xacro:if value="$(arg ur5_standalone)">
+    <gazebo>
+      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(find ur5_moveit_config)/config/ros2_controllers.yaml</parameters>
+        <controller_manager_prefix_node_name>controller_manager</controller_manager_prefix_node_name>
+      </plugin>
+    </gazebo>
+  </xacro:if>
 
 </robot>
